@@ -50,6 +50,17 @@ app.put("/canciones/:id", (req, res) => {
     res.send("Canción editada con exito");
 });
 
+//Ruta para eliminar una canción del archivo canciones.json
+app.delete("/canciones/:id", (req, res) => {
+    const { id } = req.params;
+    const canciones = JSON.parse(fs.readFileSync("./canciones.json", "utf-8"));
+
+    let index = canciones.findIndex((c) => c.id == id);
+    canciones.splice(index, 1);
+    fs.writeFileSync("./canciones.json", JSON.stringify(canciones, null, canciones.length));
+
+    res.send("Canción eliminada con exito");
+});
 
 
 
