@@ -16,16 +16,15 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
 
-app.get ("/canciones", (req, res) => {
-    if (!fs.existsSync("./canciones.json")) {
-        fs.writeFileSync("./canciones.json", "[]");
-    }
-
-    const canciones = JSON.parse(fs.readFileSync("./canciones.json", "utf-8"));
-    res.send(canciones);
+app.get("/canciones", (req, res) => {
+    !fs.existsSync("./canciones.json") ? fs.writeFileSync("./canciones.json", "[]")
+        : (() => {
+            const canciones = JSON.parse(fs.readFileSync("./canciones.json", "utf-8"));
+            res.send(canciones);
+        })();
 });
 
-app.post ("/canciones", (req, res) => {
+app.post("/canciones", (req, res) => {
     const nuevaCancion = req.body;
 
     const canciones = JSON.parse(fs.readFileSync("./canciones.json", "utf-8"));
@@ -34,6 +33,8 @@ app.post ("/canciones", (req, res) => {
 
     res.send("Canción agregada con exito");
 });
+
+
 
 
 
